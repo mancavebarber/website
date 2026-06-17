@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Mancave Barber</title>
+  <meta name="description" content="At Mancave Barbershop, we believe every haircut is an experience. Combining skilled craftsmanship, attention to detail, and exceptional customer service." />
+  <link rel="icon" type="image/jpeg" href="media/5afc8a92a_LOGO.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bone: #f8f8f6;
+      --ink: #111113;
+      --gold: #be9a37;
+      --border: #dddad5;
+      --muted: #636369;
+      --dark: #0e0e10;
+      --dark-2: #161618;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      background: var(--bone);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* EYEBROW */
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      position: relative;
+      padding-left: 2.4rem;
+    }
+    .eyebrow::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 50%;
+      width: 1.8rem; height: 1px;
+      background: var(--gold);
+    }
+    .eyebrow.gold { color: var(--gold); }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      padding: 1rem 2.2rem;
+      border: 1px solid var(--ink);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-gold { background: var(--gold); border-color: var(--gold); color: #fff; }
+    .btn-gold:hover { background: #a9852c; border-color: #a9852c; }
+    .btn-outline { background: transparent; border-color: var(--gold); color: var(--ink); }
+    .btn-outline:hover { background: var(--gold); color: #fff; }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(248, 248, 246, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, padding 0.3s;
+    }
+    .nav.scrolled { border-color: var(--border); padding: 0.7rem 2.5rem; }
+    .brand { display: flex; align-items: center; gap: 0.75rem; }
+    .brand-mark { width: 42px; height: 42px; object-fit: contain; border-radius: 4px; }
+    .brand-text {
+      display: flex; flex-direction: column; line-height: 1;
+      font-weight: 800; letter-spacing: 0.14em; font-size: 0.95rem;
+    }
+    .brand-text small {
+      font-size: 0.55rem; font-weight: 500; letter-spacing: 0.3em;
+      color: var(--muted); margin-bottom: 4px;
+    }
+    .nav-links { display: flex; gap: 2.2rem; }
+    .nav-links a {
+      font-size: 0.74rem; font-weight: 600; letter-spacing: 0.2em;
+      color: var(--ink); position: relative; padding: 4px 0;
+    }
+    .nav-links a::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 0; height: 1px; background: var(--gold); transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { padding: 0.7rem 1.6rem; }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-toggle span { width: 26px; height: 2px; background: var(--ink); transition: 0.3s; display: block; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 7rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      width: 100%; max-width: 1300px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900; line-height: 0.95; letter-spacing: -0.02em;
+    }
+    .hero h1 .gold { color: var(--gold); }
+    .hero-sub {
+      max-width: 30rem; margin: 1.8rem 0 2.4rem;
+      color: var(--muted); font-size: 1.05rem; line-height: 1.6;
+    }
+    .hero-visual { position: relative; height: 70vh; }
+    .hero-panel {
+      position: relative; height: 100%;
+      background: linear-gradient(150deg, #2a2a2c 0%, #98989a 55%, #d8d8d6 100%);
+      overflow: hidden; border-radius: 2px;
+    }
+    .hero-panel > img {
+      position: absolute; right: -4%; bottom: 0;
+      height: 96%; object-fit: contain;
+      filter: contrast(1.1); opacity: 0.95;
+    }
+    .hero-blade {
+      position: absolute; top: -10%; left: -20%;
+      width: 90%; transform: rotate(38deg);
+      opacity: 0.55; mix-blend-mode: screen;
+    }
+    .hero-blade img { width: 100%; }
+    .scroll-cue {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+      font-size: 0.62rem; letter-spacing: 0.35em; color: var(--muted);
+    }
+    .scroll-cue i {
+      width: 1px; height: 38px; background: var(--gold);
+      animation: cue 1.8s infinite; transform-origin: top;
+    }
+    @keyframes cue {
+      0%,100% { transform: scaleY(0.4); opacity: 0.4; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    /* SECTIONS */
+    .section { padding: 7rem 2.5rem; max-width: 1300px; margin: 0 auto; }
+    .section.dark, .marquee.dark, .footer.dark { max-width: none; margin: 0; }
+    .dark { background: var(--dark); color: var(--bone); }
+    .dark .eyebrow { color: rgba(248,248,246,0.6); }
+    .dark .section-head h2 { color: var(--bone); }
+    .section-head { margin-bottom: 4rem; }
+    .section-head h2 {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900; letter-spacing: -0.01em; line-height: 1;
+    }
+    .dark.section { max-width: none; }
+    .dark .section-head,
+    .dark .gallery-grid,
+    .dark .contact-grid { max-width: 1300px; margin-left: auto; margin-right: auto; }
+    .dark .section-head { margin-bottom: 4rem; }
+
+    /* SERVICES LEDGER */
+    .ledger { margin-bottom: 3.5rem; }
+    .ledger-cat {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3em;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 0.5rem 1.2rem; margin-bottom: 1.8rem;
+    }
+    .ledger-list { list-style: none; }
+    .ledger-list li {
+      display: flex; align-items: baseline;
+      padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    }
+    .srv { font-weight: 600; letter-spacing: 0.08em; font-size: 0.95rem; white-space: nowrap; }
+    .srv em {
+      font-style: normal; color: var(--muted); font-weight: 400;
+      font-size: 0.78rem; letter-spacing: 0.04em; margin-left: 0.6rem;
+    }
+    .dots { flex: 1; border-bottom: 1px dotted #c9c6c0; margin: 0 0.8rem; transform: translateY(-3px); }
+    .price { font-weight: 700; color: var(--gold); letter-spacing: 0.05em; }
+
+    /* GALLERY */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 0.8rem; max-width: 1300px; margin: 0 auto;
+    }
+    .gallery-grid figure {
+      position: relative; overflow: hidden;
+      aspect-ratio: 2/3.4; transform: skewY(-3deg);
+    }
+    .gallery-grid figure:nth-child(even) { transform: skewY(3deg) translateY(1.5rem); }
+    .gallery-grid img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(0.2) contrast(1.05);
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    .gallery-grid figure:hover img { transform: scale(1.08); filter: grayscale(0) contrast(1.1); }
+    .gallery-grid figcaption {
+      position: absolute; top: 0.7rem; left: 0.7rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: var(--gold);
+    }
+
+    /* TEAM */
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .team-card {
+      border: 1px solid var(--border); padding: 2.5rem 2rem;
+      transition: border-color 0.3s, transform 0.3s; background: #fff;
+    }
+    .team-card:hover { border-color: var(--gold); transform: translateY(-6px); }
+    .team-no { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.3em; color: var(--gold); }
+    .team-card h3 { font-size: 2rem; font-weight: 900; margin: 0.8rem 0 0.4rem; letter-spacing: -0.01em; }
+    .role { font-size: 0.74rem; letter-spacing: 0.18em; color: var(--muted); font-weight: 600; }
+    .exp {
+      margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .exp small { font-size: 0.62rem; letter-spacing: 0.25em; color: var(--muted); }
+    .exp strong { font-size: 1.1rem; letter-spacing: 0.1em; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
+    .contact-col h4 {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.28em; color: var(--gold);
+      margin-bottom: 1.4rem; padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(221,218,213,0.2);
+    }
+    .contact-col p { font-size: 0.95rem; line-height: 1.9; color: rgba(248,248,246,0.85); }
+    .contact-col a:hover { color: var(--gold); }
+
+    /* MARQUEE */
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid var(--dark-2);
+      border-bottom: 1px solid var(--dark-2);
+      padding: 1.4rem 0;
+    }
+    .marquee-track {
+      display: flex; gap: 2rem; white-space: nowrap;
+      width: max-content; animation: marquee-scroll 26s linear infinite;
+    }
+    .marquee-track span {
+      font-size: clamp(1.4rem, 4vw, 2.6rem);
+      font-weight: 900; letter-spacing: 0.05em;
+      color: transparent; -webkit-text-stroke: 1px rgba(248,248,246,0.35);
+    }
+    @keyframes marquee-scroll { to { transform: translateX(-50%); } }
+
+    /* FOOTER */
+    .footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2rem 2.5rem;
+      font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(248,248,246,0.6);
+    }
+
+    /* REVEAL ANIMATION */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+
+    /* Tablet */
+    @media (max-width: 900px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+      .nav.open .nav-links {
+        display: flex; flex-direction: column; gap: 1.5rem;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--bone); padding: 2rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero { padding: 6rem 1.5rem 4rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { height: 45vh; margin-top: 2rem; }
+      .section { padding: 4.5rem 1.5rem; }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .gallery-grid figure,
+      .gallery-grid figure:nth-child(even) { transform: none; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+
+    /* Mobile */
+    @media (max-width: 540px) {
+      .nav { padding: 0.9rem 1.2rem; }
+      .brand-text { display: none; }
+      .hero h1 { font-size: clamp(2.4rem, 12vw, 3.6rem); }
+      .hero-visual { height: 35vh; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+      .team-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .section { padding: 3.5rem 1.2rem; }
+      .section-head { margin-bottom: 2.5rem; }
+      .ledger-list li { flex-wrap: wrap; gap: 0.2rem; }
+      .dots { display: none; }
+      .price { margin-left: auto; }
+      .footer { padding: 1.5rem 1.2rem; font-size: 0.62rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#top" class="brand">
+      <img src="media/5afc8a92a_LOGO.jpg" alt="The Mancave Barber logo" class="brand-mark" />
+      <span class="brand-text">
+        <small>WELCOME TO</small>
+        THE MANCAVE
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="#services">SERVICES</a>
+      <a href="#gallery">GALLERY</a>
+      <a href="#team">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+    <a href="#contact" class="btn btn-gold nav-cta">BOOK NOW</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-content reveal">
+        <span class="eyebrow">PRECISION GROOMING — EST. 2023</span>
+        <h1>THE MANCAVE<br /><span class="gold">BARBERSHOP</span></h1>
+        <p class="hero-sub">Where structural engineering meets individual identity. Every cut is a calculated act of precision.</p>
+        <a href="#contact" class="btn btn-outline">BOOK YOUR SESSION</a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-panel">
+          <img src="media/6a1d221f5_generated_b94219c2.png" alt="Profile silhouette" />
+          <div class="hero-blade">
+            <img src="media/9bef73086_generated_83f1fa96.png" alt="Razor blade" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>SCROLL</span><i></i></div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services" id="services">
+    <div class="section-head reveal">
+      <span class="eyebrow">SERVICE LEDGER</span>
+      <h2>OUR SERVICES</h2>
+    </div>
+
+    <div class="ledger reveal">
+      <h3 class="ledger-cat">HAIR</h3>
+      <ul class="ledger-list">
+        <li><span class="srv">HAIRCUT</span><span class="dots"></span><span class="price">R150</span></li>
+        <li><span class="srv">MACHINE CUT</span><span class="dots"></span><span class="price">R140</span></li>
+        <li><span class="srv">FADE</span><span class="dots"></span><span class="price">R160</span></li>
+        <li><span class="srv">CHILDREN <em>6–14 years</em></span><span class="dots"></span><span class="price">R120</span></li>
+        <li><span class="srv">KIDS <em>0–6 years</em></span><span class="dots"></span><span class="price">R90</span></li>
+        <li><span class="srv">FLAT TOP</span><span class="dots"></span><span class="price">R170</span></li>
+        <li><span class="srv">PENSIONER</span><span class="dots"></span><span class="price">R130</span></li>
+      </ul>
+    </div>
+
+    <div class="ledger reveal">
+      <h3 class="ledger-cat">GROOMING</h3>
+      <ul class="ledger-list">
+        <li><span class="srv">SHAVE</span><span class="dots"></span><span class="price">R140</span></li>
+        <li><span class="srv">HEAD SHAVE</span><span class="dots"></span><span class="price">R140</span></li>
+        <li><span class="srv">BEARD TRIM</span><span class="dots"></span><span class="price">R110</span></li>
+        <li><span class="srv">HEAD &amp; BEARD SHAVE <em>With steam</em></span><span class="dots"></span><span class="price">R310</span></li>
+        <li><span class="srv">HEAD SHAVE <em>With steam</em></span><span class="dots"></span><span class="price">R160</span></li>
+        <li><span class="srv">FULL FACIAL</span><span class="dots"></span><span class="price">R300</span></li>
+        <li><span class="srv">FULL HOUSE</span><span class="dots"></span><span class="price">R500</span></li>
+        <li><span class="srv">FACE SCRUB</span><span class="dots"></span><span class="price">R110</span></li>
+        <li><span class="srv">WAX</span><span class="dots"></span><span class="price">R50</span></li>
+        <li><span class="srv">THREADING</span><span class="dots"></span><span class="price">R110</span></li>
+      </ul>
+    </div>
+
+    <div class="ledger reveal">
+      <h3 class="ledger-cat">COLOUR</h3>
+      <ul class="ledger-list">
+        <li><span class="srv">WASH</span><span class="dots"></span><span class="price">R50</span></li>
+        <li><span class="srv">FULL BEARD COLOUR</span><span class="dots"></span><span class="price">R160</span></li>
+        <li><span class="srv">FULL HAIR COLOUR</span><span class="dots"></span><span class="price">R190</span></li>
+        <li><span class="srv">HAIR &amp; BEARD COLOUR</span><span class="dots"></span><span class="price">R340</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section gallery dark" id="gallery">
+    <div class="section-head reveal">
+      <span class="eyebrow gold">PORTFOLIO</span>
+      <h2>THE GALLERY OF FORM</h2>
+    </div>
+    <div class="gallery-grid">
+      <figure class="reveal"><img src="media/bc70f9a0a_generated_bd037539.png" alt="Fade haircut" /><figcaption>01</figcaption></figure>
+      <figure class="reveal"><img src="media/3b6974932_generated_ae6f3b8b.png" alt="Shears" /><figcaption>02</figcaption></figure>
+      <figure class="reveal"><img src="media/266937710_generated_a4803e94.png" alt="Texture cut" /><figcaption>03</figcaption></figure>
+      <figure class="reveal"><img src="media/5f97750e7_generated_6d7202ff.png" alt="Hot towel shave" /><figcaption>04</figcaption></figure>
+      <figure class="reveal"><img src="media/514b8afc3_generated_a4b4a7d6.png" alt="Barber tools" /><figcaption>05</figcaption></figure>
+      <figure class="reveal"><img src="media/9bef73086_generated_83f1fa96.png" alt="Straight razor" /><figcaption>06</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="section team" id="team">
+    <div class="section-head reveal">
+      <span class="eyebrow">THE ARTISANS</span>
+      <h2>MEET THE TEAM</h2>
+    </div>
+    <div class="team-grid">
+      <article class="team-card reveal">
+        <span class="team-no">BARBER 01</span>
+        <h3>ADLAN</h3>
+        <p class="role">BARBER / SPECIALIST</p>
+        <div class="exp"><small>EXPERIENCE</small><strong>4 YEARS</strong></div>
+      </article>
+      <article class="team-card reveal">
+        <span class="team-no">BARBER 02</span>
+        <h3>IMAAD</h3>
+        <p class="role">BARBER / SPECIALIST</p>
+        <div class="exp"><small>EXPERIENCE</small><strong>5 YEARS</strong></div>
+      </article>
+      <article class="team-card reveal">
+        <span class="team-no">BARBER 03</span>
+        <h3>FAROUKH</h3>
+        <p class="role">BARBER / SPECIALIST</p>
+        <div class="exp"><small>EXPERIENCE</small><strong>6 YEARS</strong></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact dark" id="contact">
+    <div class="section-head reveal">
+      <span class="eyebrow gold">LOCATE</span>
+      <h2>FIND US</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-col reveal">
+        <h4>ADDRESS</h4>
+        <p>166 Kock Street</p>
+        <p>Clearview Square</p>
+        <p>Rustenburg 0299</p>
+      </div>
+      <div class="contact-col reveal">
+        <h4>CONTACT</h4>
+        <p><a href="tel:+27815918474">+27 81 591 8474</a></p>
+        <p><a href="mailto:mancavebarbershop42@gmail.com">mancavebarbershop42@gmail.com</a></p>
+      </div>
+      <div class="contact-col reveal">
+        <h4>HOURS</h4>
+        <p>Mon – Fri: 8AM – 6PM</p>
+        <p>Sat: 8AM – 5PM</p>
+        <p>Sun: 8AM – 4PM</p>
+      </div>
+      <div class="contact-col reveal">
+        <h4>SOCIAL</h4>
+        <p>IG: @_mancave_barber__</p>
+        <p>FB: The Mancave Barbershop</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee dark">
+    <div class="marquee-track">
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+      <span>PRECISION IS NOT AN ACCIDENT •</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer dark">
+    <span>© 2026 THE MANCAVE BARBER</span>
+    <span>PRECISION GROOMING — EST. 2023</span>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const nav = document.getElementById("nav");
+    window.addEventListener("scroll", () => {
+      nav.classList.toggle("scrolled", window.scrollY > 30);
+    });
+
+    // Mobile hamburger menu
+    const toggle = document.getElementById("navToggle");
+    toggle.addEventListener("click", () => nav.classList.toggle("open"));
+    document.querySelectorAll(".nav-links a").forEach((a) =>
+      a.addEventListener("click", () => nav.classList.remove("open"))
+    );
+
+    // Scroll-reveal
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
